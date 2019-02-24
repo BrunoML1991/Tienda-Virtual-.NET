@@ -22,21 +22,46 @@ namespace PlantillaMVC.Controllers
         {
             Pedido pedido = new Pedido();
             pedido.IdUsuario = User.Identity.Name;
-            ProductosPedidos pp = new ProductosPedidos();
-            pp.Pedidoes.Add(pedido);
             List<Producto> productos = ProductList(cc);
             foreach(Producto producto in productos)
             {
+                ProductosPedidos pp = new ProductosPedidos();
                 pp.Producto.Add(db.Productos.Find(producto.Id));
                 pp.Cantidad_Productos = producto.Cantidad;
-                //db.Productos.Find(producto.Id).Pedidoes.Add(pedido);
-                //pedido.Producto.Add(db.Productos.Find(producto.Id));
-                
+                pp.Pedidoes.Add(pedido);
+                db.ProductosPedidos.Add(pp);
             }
             db.Pedidoes.Add(pedido);
-            db.ProductosPedidos.Add(pp);
+            foreach(Producto producto in productos)
+            {
+                Producto productodb = db.Productos.Find(producto.Id);
+                productodb.Cantidad -= producto.Cantidad;
+            }
             db.SaveChanges();
             cc.Clear();
+            return RedirectToAction("Index");
+        }
+        public ActionResult Remove(int id, CarritoCompra cc)
+        {
+            Producto producto=new Producto();
+            foreach (var p in cc)
+            {
+                if (p.Id == id)
+                    producto = p;
+            }
+            cc.Remove(producto);
+            return RedirectToAction("Index");
+        }
+        public ActionResult RemoveAll(int id, CarritoCompra cc)
+        {
+            List<Producto> productos = new List<Producto>();
+            foreach (var p in cc)
+            {
+                if (p.Id == id)
+                    productos.Add(p);
+            }
+            foreach(Producto p in productos)
+                cc.Remove(p);
             return RedirectToAction("Index");
         }
 

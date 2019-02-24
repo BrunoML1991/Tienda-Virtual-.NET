@@ -3,11 +3,18 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
+<link href="~/Content/myStyles.css" rel="stylesheet" type="text/css" />
+<h2>Carrito de la compra</h2>
+<h4>
+    @{float cantidad = 0; }
+    @foreach (var item in Model)
+    {
+        cantidad += item.Cantidad * item.Precio;
+    }
+    Total a pagar: @cantidad €
+</h4>
 <p>
-    @Html.ActionLink("Volcar Carrito", "Pedido")
+    @Html.ActionLink("Finalizar la compra", "Pedido")
 </p>
 <table class="table">
     <tr>
@@ -26,10 +33,12 @@
         <th>
             @Html.DisplayNameFor(model => model.FotoID)
         </th>
-        <th></th>
+        <th>
+            Quitar Productos
+        </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model) {  
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Nombre)
@@ -44,10 +53,11 @@
             @Html.DisplayFor(modelItem => item.Precio)
         </td>
         <td>
-            <img src="~/Content/Images/@item.FotoID" style="height:60px;width:60px;" />
+            <img src="~/Content/Images/@item.FotoID" class="image" />
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id })
+            @Html.ActionLink("Uno / ", "Remove", new { id=item.Id })
+            @Html.ActionLink("Todos","RemoveAll",new { id=item.Id})
         </td>
     </tr>
 }
