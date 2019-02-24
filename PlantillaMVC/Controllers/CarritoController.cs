@@ -26,7 +26,7 @@ namespace PlantillaMVC.Controllers
             foreach(Producto producto in productos)
             {
                 ProductosPedidos pp = new ProductosPedidos();
-                pp.Producto.Add(db.Productos.Find(producto.Id));
+                pp.Producto = db.Productos.Find(producto.Id);
                 pp.Cantidad_Productos = producto.Cantidad;
                 pp.Pedidoes.Add(pedido);
                 db.ProductosPedidos.Add(pp);

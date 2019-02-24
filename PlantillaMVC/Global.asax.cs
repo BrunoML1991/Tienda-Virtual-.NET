@@ -18,12 +18,10 @@ namespace PlantillaMVC
         {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelBinders.Binders.Add(typeof(CarritoCompra),new CarritoCompraModelBinder());
-            GlobalConfiguration.Configure(WebApiConfig.Register);//No encuentra la ruta y no se xk
-            //Copiar esto del proyecto de api y en app_start coger las rutas y copiarlas
-            //Crear un controller de api para que meta todas las librerias
         }
     }
 }

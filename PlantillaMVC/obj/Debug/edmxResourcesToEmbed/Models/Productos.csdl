@@ -43,7 +43,7 @@
     <Property Name="Cantidad_Productos" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="ProductoProductosPedidos">
-    <End Type="TiendaFinalModel.Producto" Role="Producto" Multiplicity="*" />
+    <End Type="TiendaFinalModel.Producto" Role="Producto" Multiplicity="1" />
     <End Type="TiendaFinalModel.ProductosPedidos" Role="ProductosPedidos" Multiplicity="*" />
   </Association>
   <Association Name="ProductosPedidosPedido">
