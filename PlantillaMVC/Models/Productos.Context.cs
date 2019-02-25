@@ -28,5 +28,6 @@ namespace PlantillaMVC.Models
         public virtual DbSet<Producto> Productos { get; set; }
         public virtual DbSet<Pedido> Pedidoes { get; set; }
         public virtual DbSet<ProductosPedidos> ProductosPedidos { get; set; }
+        public virtual DbSet<Stock> Stocks { get; set; }
     }
 }

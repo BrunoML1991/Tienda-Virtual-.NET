@@ -39,6 +39,14 @@
           <Property Name="ProductosPedido_Id" Type="int" Nullable="false" />
           <Property Name="Pedidoes_Id" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Stocks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reabastecido" Type="bit" Nullable="false" />
+          <Property Name="Productoes_Id" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_ProductoProductosPedidos">
           <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
           <End Role="ProductosPedidos" Type="Self.ProductosPedidos" Multiplicity="*" />
@@ -75,11 +83,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StockProducto">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Stocks" Type="Self.Stocks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stocks">
+              <PropertyRef Name="Productoes_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TiendaFinalModelStoreContainer">
           <EntitySet Name="Pedidoes" EntityType="Self.Pedidoes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductosPedidos" EntityType="Self.ProductosPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductosPedidosPedido" EntityType="Self.ProductosPedidosPedido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stocks" EntityType="Self.Stocks" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ProductoProductosPedidos" Association="Self.FK_ProductoProductosPedidos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="ProductosPedidos" EntitySet="ProductosPedidos" />
@@ -91,6 +112,10 @@
           <AssociationSet Name="FK_ProductosPedidosPedido_ProductosPedidos" Association="Self.FK_ProductosPedidosPedido_ProductosPedidos">
             <End Role="ProductosPedidos" EntitySet="ProductosPedidos" />
             <End Role="ProductosPedidosPedido" EntitySet="ProductosPedidosPedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockProducto" Association="Self.FK_StockProducto">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Stocks" EntitySet="Stocks" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -108,6 +133,7 @@
           <Property Name="Precio" Type="Single" Nullable="false" />
           <Property Name="FotoID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ProductosPedidos" Relationship="TiendaFinalModel.ProductoProductosPedidos" FromRole="Producto" ToRole="ProductosPedidos" />
+          <NavigationProperty Name="Stock" Relationship="TiendaFinalModel.StockProducto" FromRole="Producto" ToRole="Stock" />
         </EntityType>
         <EntityContainer Name="TiendaFinalEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Productos" EntityType="Self.Producto" />
@@ -120,6 +146,11 @@
           <AssociationSet Name="ProductosPedidosPedido" Association="TiendaFinalModel.ProductosPedidosPedido">
             <End Role="ProductosPedidos" EntitySet="ProductosPedidos" />
             <End Role="Pedido" EntitySet="Pedidoes" />
+          </AssociationSet>
+          <EntitySet Name="Stocks" EntityType="TiendaFinalModel.Stock" />
+          <AssociationSet Name="StockProducto" Association="TiendaFinalModel.StockProducto">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="Producto" EntitySet="Productos" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Pedido">
@@ -146,6 +177,18 @@
         <Association Name="ProductosPedidosPedido">
           <End Type="TiendaFinalModel.ProductosPedidos" Role="ProductosPedidos" Multiplicity="*" />
           <End Type="TiendaFinalModel.Pedido" Role="Pedido" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reabastecido" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Productoes" Relationship="TiendaFinalModel.StockProducto" FromRole="Stock" ToRole="Producto" />
+        </EntityType>
+        <Association Name="StockProducto">
+          <End Type="TiendaFinalModel.Stock" Role="Stock" Multiplicity="*" />
+          <End Type="TiendaFinalModel.Producto" Role="Producto" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -181,6 +224,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Stocks">
+      <EntityTypeMapping TypeName="IsTypeOf(TiendaFinalModel.Stock)">
+        <MappingFragment StoreEntitySet="Stocks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Reabastecido" ColumnName="Reabastecido" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ProductoProductosPedidos" TypeName="TiendaFinalModel.ProductoProductosPedidos" StoreEntitySet="ProductosPedidos">
       <EndProperty Name="Producto">
         <ScalarProperty Name="Id" ColumnName="Producto_Id" />
@@ -195,6 +246,14 @@
       </EndProperty>
       <EndProperty Name="Pedido">
         <ScalarProperty Name="Id" ColumnName="Pedidoes_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StockProducto" TypeName="TiendaFinalModel.StockProducto" StoreEntitySet="Stocks">
+      <EndProperty Name="Producto">
+        <ScalarProperty Name="Id" ColumnName="Productoes_Id" />
+      </EndProperty>
+      <EndProperty Name="Stock">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

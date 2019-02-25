@@ -11,6 +11,7 @@
     <Property Name="Precio" Type="Single" Nullable="false" />
     <Property Name="FotoID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ProductosPedidos" Relationship="TiendaFinalModel.ProductoProductosPedidos" FromRole="Producto" ToRole="ProductosPedidos" />
+    <NavigationProperty Name="Stock" Relationship="TiendaFinalModel.StockProducto" FromRole="Producto" ToRole="Stock" />
   </EntityType>
   <EntityContainer Name="TiendaFinalEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Productos" EntityType="Self.Producto" />
@@ -23,6 +24,11 @@
     <AssociationSet Name="ProductosPedidosPedido" Association="TiendaFinalModel.ProductosPedidosPedido">
       <End Role="ProductosPedidos" EntitySet="ProductosPedidos" />
       <End Role="Pedido" EntitySet="Pedidoes" />
+    </AssociationSet>
+    <EntitySet Name="Stocks" EntityType="TiendaFinalModel.Stock" />
+    <AssociationSet Name="StockProducto" Association="TiendaFinalModel.StockProducto">
+      <End Role="Stock" EntitySet="Stocks" />
+      <End Role="Producto" EntitySet="Productos" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Pedido">
@@ -49,5 +55,17 @@
   <Association Name="ProductosPedidosPedido">
     <End Type="TiendaFinalModel.ProductosPedidos" Role="ProductosPedidos" Multiplicity="*" />
     <End Type="TiendaFinalModel.Pedido" Role="Pedido" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Reabastecido" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Productoes" Relationship="TiendaFinalModel.StockProducto" FromRole="Stock" ToRole="Producto" />
+  </EntityType>
+  <Association Name="StockProducto">
+    <End Type="TiendaFinalModel.Stock" Role="Stock" Multiplicity="*" />
+    <End Type="TiendaFinalModel.Producto" Role="Producto" Multiplicity="1" />
   </Association>
 </Schema>

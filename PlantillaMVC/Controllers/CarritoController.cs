@@ -36,6 +36,13 @@ namespace PlantillaMVC.Controllers
             {
                 Producto productodb = db.Productos.Find(producto.Id);
                 productodb.Cantidad -= producto.Cantidad;
+                if (productodb.Cantidad <= 2)
+                {
+                    Stock stock = new Stock();
+                    stock.Productoes = productodb;
+                    stock.Reabastecido = false;
+                    db.Stocks.Add(stock);
+                }
             }
             db.SaveChanges();
             cc.Clear();

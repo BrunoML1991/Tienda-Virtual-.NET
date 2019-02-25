@@ -18,6 +18,7 @@ namespace PlantillaMVC.Models
         public Producto()
         {
             this.ProductosPedidos = new HashSet<ProductosPedidos>();
+            this.Stock = new HashSet<Stock>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace PlantillaMVC.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductosPedidos> ProductosPedidos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stock> Stock { get; set; }
     }
 }

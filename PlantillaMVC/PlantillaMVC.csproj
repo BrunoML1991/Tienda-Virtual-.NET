@@ -226,6 +226,9 @@
       <DependentUpon>Productos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Session\CarritoCompra.cs" />
+    <Compile Include="Models\Stock.cs">
+      <DependentUpon>Productos.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/24/2019 21:17:32
+-- Date Created: 02/25/2019 20:09:02
 -- Generated from EDMX file: D:\Trabajos Bruno\MIW\NET\workspace\Teoría y ejemplos\PlantillaMVC\PlantillaMVC\Models\Productos.edmx
 -- --------------------------------------------------
 
@@ -18,7 +18,7 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_ProductoProductosPedidos]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Productos] DROP CONSTRAINT [FK_ProductoProductosPedidos];
+    ALTER TABLE [dbo].[ProductosPedidos] DROP CONSTRAINT [FK_ProductoProductosPedidos];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProductosPedidosPedido_Pedido]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProductosPedidosPedido] DROP CONSTRAINT [FK_ProductosPedidosPedido_Pedido];
@@ -74,6 +74,14 @@ CREATE TABLE [dbo].[ProductosPedidos] (
 );
 GO
 
+-- Creating table 'Stocks'
+CREATE TABLE [dbo].[Stocks] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Reabastecido] bit  NOT NULL,
+    [Productoes_Id] int  NOT NULL
+);
+GO
+
 -- Creating table 'ProductosPedidosPedido'
 CREATE TABLE [dbo].[ProductosPedidosPedido] (
     [ProductosPedido_Id] int  NOT NULL,
@@ -100,6 +108,12 @@ GO
 -- Creating primary key on [Id] in table 'ProductosPedidos'
 ALTER TABLE [dbo].[ProductosPedidos]
 ADD CONSTRAINT [PK_ProductosPedidos]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Stocks'
+ALTER TABLE [dbo].[Stocks]
+ADD CONSTRAINT [PK_Stocks]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -150,6 +164,21 @@ GO
 CREATE INDEX [IX_FK_ProductosPedidosPedido_Pedido]
 ON [dbo].[ProductosPedidosPedido]
     ([Pedidoes_Id]);
+GO
+
+-- Creating foreign key on [Productoes_Id] in table 'Stocks'
+ALTER TABLE [dbo].[Stocks]
+ADD CONSTRAINT [FK_StockProducto]
+    FOREIGN KEY ([Productoes_Id])
+    REFERENCES [dbo].[Productos]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StockProducto'
+CREATE INDEX [IX_FK_StockProducto]
+ON [dbo].[Stocks]
+    ([Productoes_Id]);
 GO
 
 -- --------------------------------------------------
