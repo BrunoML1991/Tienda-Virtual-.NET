@@ -199,6 +199,8 @@
     <Compile Include="Models\Binders\CarritoCompraModelBinder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Metadata\ProductoMetadata.cs" />
+    <Compile Include="Models\PartialClasses\Producto.cs" />
     <Compile Include="Models\Pedido.cs">
       <DependentUpon>Productos.tt</DependentUpon>
     </Compile>
