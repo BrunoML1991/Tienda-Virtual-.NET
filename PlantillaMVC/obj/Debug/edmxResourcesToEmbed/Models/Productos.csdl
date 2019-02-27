@@ -30,6 +30,11 @@
       <End Role="Stock" EntitySet="Stocks" />
       <End Role="Producto" EntitySet="Productos" />
     </AssociationSet>
+    <EntitySet Name="Facturas" EntityType="TiendaFinalModel.Factura" />
+    <AssociationSet Name="PedidoFactura" Association="TiendaFinalModel.PedidoFactura">
+      <End Role="Pedido" EntitySet="Pedidoes" />
+      <End Role="Factura" EntitySet="Facturas" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Pedido">
     <Key>
@@ -38,6 +43,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdUsuario" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="ProductosPedido" Relationship="TiendaFinalModel.ProductosPedidosPedido" FromRole="Pedido" ToRole="ProductosPedidos" />
+    <NavigationProperty Name="Facturas" Relationship="TiendaFinalModel.PedidoFactura" FromRole="Pedido" ToRole="Factura" />
   </EntityType>
   <EntityType Name="ProductosPedidos">
     <Key>
@@ -67,5 +73,17 @@
   <Association Name="StockProducto">
     <End Type="TiendaFinalModel.Stock" Role="Stock" Multiplicity="*" />
     <End Type="TiendaFinalModel.Producto" Role="Producto" Multiplicity="1" />
+  </Association>
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Pedido" Relationship="TiendaFinalModel.PedidoFactura" FromRole="Factura" ToRole="Pedido" />
+    <Property Name="ImporteTotal" Type="Single" Nullable="false" />
+  </EntityType>
+  <Association Name="PedidoFactura">
+    <End Type="TiendaFinalModel.Pedido" Role="Pedido" Multiplicity="1" />
+    <End Type="TiendaFinalModel.Factura" Role="Factura" Multiplicity="1" />
   </Association>
 </Schema>

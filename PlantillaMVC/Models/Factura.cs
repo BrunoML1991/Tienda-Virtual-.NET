@@ -12,19 +12,11 @@ namespace PlantillaMVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Pedido
+    public partial class Factura
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Pedido()
-        {
-            this.ProductosPedido = new HashSet<ProductosPedidos>();
-        }
-    
         public int Id { get; set; }
-        public string IdUsuario { get; set; }
+        public float ImporteTotal { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductosPedidos> ProductosPedido { get; set; }
-        public virtual Factura Facturas { get; set; }
+        public virtual Pedido Pedido { get; set; }
     }
 }

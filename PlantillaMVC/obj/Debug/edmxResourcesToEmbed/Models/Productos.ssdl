@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TiendaFinalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Facturas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ImporteTotal" Type="real" Nullable="false" />
+  </EntityType>
   <EntityType Name="Pedidoes">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdUsuario" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Facturas_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Productos">
     <Key>
@@ -42,6 +50,18 @@
     <Property Name="Reabastecido" Type="bit" Nullable="false" />
     <Property Name="Productoes_Id" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK_PedidoFactura">
+    <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+    <End Role="Pedidoes" Type="Self.Pedidoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Facturas">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pedidoes">
+        <PropertyRef Name="Facturas_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProductoProductosPedidos">
     <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
     <End Role="ProductosPedidos" Type="Self.ProductosPedidos" Multiplicity="*" />
@@ -91,11 +111,16 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="TiendaFinalModelStoreContainer">
+    <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Pedidoes" EntityType="Self.Pedidoes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductosPedidos" EntityType="Self.ProductosPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductosPedidosPedido" EntityType="Self.ProductosPedidosPedido" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Stocks" EntityType="Self.Stocks" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_PedidoFactura" Association="Self.FK_PedidoFactura">
+      <End Role="Facturas" EntitySet="Facturas" />
+      <End Role="Pedidoes" EntitySet="Pedidoes" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProductoProductosPedidos" Association="Self.FK_ProductoProductosPedidos">
       <End Role="Productos" EntitySet="Productos" />
       <End Role="ProductosPedidos" EntitySet="ProductosPedidos" />

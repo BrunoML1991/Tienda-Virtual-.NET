@@ -12,6 +12,8 @@
         <AssociationConnector Association="TiendaFinalModel.ProductosPedidosPedido" />
         <EntityTypeShape EntityType="TiendaFinalModel.Stock" Width="1.5" PointX="2.125" PointY="4" />
         <AssociationConnector Association="TiendaFinalModel.StockProducto" />
+        <EntityTypeShape EntityType="TiendaFinalModel.Factura" Width="1.5" PointX="8" PointY="1.75" />
+        <AssociationConnector Association="TiendaFinalModel.PedidoFactura" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

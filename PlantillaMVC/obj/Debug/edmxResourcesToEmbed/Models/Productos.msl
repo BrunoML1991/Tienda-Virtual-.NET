@@ -37,6 +37,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Facturas">
+      <EntityTypeMapping TypeName="IsTypeOf(TiendaFinalModel.Factura)">
+        <MappingFragment StoreEntitySet="Facturas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImporteTotal" ColumnName="ImporteTotal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ProductoProductosPedidos" TypeName="TiendaFinalModel.ProductoProductosPedidos" StoreEntitySet="ProductosPedidos">
       <EndProperty Name="Producto">
         <ScalarProperty Name="Id" ColumnName="Producto_Id" />
@@ -58,6 +66,14 @@
         <ScalarProperty Name="Id" ColumnName="Productoes_Id" />
       </EndProperty>
       <EndProperty Name="Stock">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PedidoFactura" TypeName="TiendaFinalModel.PedidoFactura" StoreEntitySet="Pedidoes">
+      <EndProperty Name="Factura">
+        <ScalarProperty Name="Id" ColumnName="Facturas_Id" />
+      </EndProperty>
+      <EndProperty Name="Pedido">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

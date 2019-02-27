@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/25/2019 20:09:02
+-- Date Created: 02/26/2019 20:49:09
 -- Generated from EDMX file: D:\Trabajos Bruno\MIW\NET\workspace\Teoría y ejemplos\PlantillaMVC\PlantillaMVC\Models\Productos.edmx
 -- --------------------------------------------------
 
@@ -26,6 +26,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ProductosPedidosPedido_ProductosPedidos]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ProductosPedidosPedido] DROP CONSTRAINT [FK_ProductosPedidosPedido_ProductosPedidos];
 GO
+IF OBJECT_ID(N'[dbo].[FK_StockProducto]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Stocks] DROP CONSTRAINT [FK_StockProducto];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -42,6 +45,9 @@ IF OBJECT_ID(N'[dbo].[ProductosPedidos]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[ProductosPedidosPedido]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ProductosPedidosPedido];
+GO
+IF OBJECT_ID(N'[dbo].[Stocks]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Stocks];
 GO
 
 -- --------------------------------------------------
@@ -62,7 +68,8 @@ GO
 -- Creating table 'Pedidoes'
 CREATE TABLE [dbo].[Pedidoes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [IdUsuario] nvarchar(max)  NOT NULL
+    [IdUsuario] nvarchar(max)  NOT NULL,
+    [Facturas_Id] int  NOT NULL
 );
 GO
 
@@ -79,6 +86,13 @@ CREATE TABLE [dbo].[Stocks] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Reabastecido] bit  NOT NULL,
     [Productoes_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Facturas'
+CREATE TABLE [dbo].[Facturas] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ImporteTotal] real  NOT NULL
 );
 GO
 
@@ -114,6 +128,12 @@ GO
 -- Creating primary key on [Id] in table 'Stocks'
 ALTER TABLE [dbo].[Stocks]
 ADD CONSTRAINT [PK_Stocks]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Facturas'
+ALTER TABLE [dbo].[Facturas]
+ADD CONSTRAINT [PK_Facturas]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -179,6 +199,21 @@ GO
 CREATE INDEX [IX_FK_StockProducto]
 ON [dbo].[Stocks]
     ([Productoes_Id]);
+GO
+
+-- Creating foreign key on [Facturas_Id] in table 'Pedidoes'
+ALTER TABLE [dbo].[Pedidoes]
+ADD CONSTRAINT [FK_PedidoFactura]
+    FOREIGN KEY ([Facturas_Id])
+    REFERENCES [dbo].[Facturas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PedidoFactura'
+CREATE INDEX [IX_FK_PedidoFactura]
+ON [dbo].[Pedidoes]
+    ([Facturas_Id]);
 GO
 
 -- --------------------------------------------------

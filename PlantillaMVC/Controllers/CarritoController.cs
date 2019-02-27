@@ -31,11 +31,13 @@ namespace PlantillaMVC.Controllers
                 pp.Pedidoes.Add(pedido);
                 db.ProductosPedidos.Add(pp);
             }
-            db.Pedidoes.Add(pedido);
-            foreach(Producto producto in productos)
+            Factura factura = new Factura();
+            factura.ImporteTotal = 0;
+            foreach (Producto producto in productos)
             {
                 Producto productodb = db.Productos.Find(producto.Id);
                 productodb.Cantidad -= producto.Cantidad;
+                factura.ImporteTotal += producto.Precio * producto.Cantidad;
                 if (productodb.Cantidad <= 2)
                 {
                     Stock stock = new Stock();
@@ -44,6 +46,9 @@ namespace PlantillaMVC.Controllers
                     db.Stocks.Add(stock);
                 }
             }
+            factura.Pedido = pedido;
+            db.Facturas.Add(factura);
+            db.Pedidoes.Add(pedido);
             db.SaveChanges();
             cc.Clear();
             return RedirectToAction("Index");
